@@ -10,7 +10,7 @@ export const Form = ({ onAddActivity }) => {
     const data = {
       id: uid(),
       name: name,
-      GoodWeather: checked,
+      goodweather: checked,
     };
     onAddActivity(data);
     setName("");
