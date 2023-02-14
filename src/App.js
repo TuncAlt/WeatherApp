@@ -4,30 +4,39 @@ import { List } from "./components/List";
 import useLocalStorageState from "use-local-storage-state";
 
 function App() {
+  const [weather, setWeather] = useState("");
   const [activities, setActivities] = useLocalStorageState("activities", {
     defaultValue: [],
   });
-
-  const filterActivities = activities.filter(
-    (activity) => activity.goodweather === weather.isGoodWeather
+  const isGoodWeather = weather.isGoodWeather;
+  const filteredActivities = activities.filter(
+    (activity) => activity.goodweather === isGoodWeather
   );
-  const [weather, setWeather] = useState("");
+
   useEffect(() => {
-    fetch("https://example-apis.vercel.app/api/weather")
-      .then((response) => response.json())
-      .then((data) => setWeather(data))
-      .then(console.log(weather.temperature));
-  }, [weather]);
-  //const isGoodWeather = weather;
+    async function startFetching() {
+      const response = await fetch(
+        "https://example-apis.vercel.app/api/weather"
+      );
+      const data = await response.json();
+      setWeather(data);
+    }
+    startFetching();
+  }, []);
+
   function handleAddActivity(newActivity) {
     setActivities([...activities, newActivity]);
     console.log(activities);
   }
+
+  console.log(isGoodWeather);
   return (
     <div className="App">
       <List
-        activities={filterActivities}
-        isGoodWeather={weather.isGoodWeather}
+        activities={filteredActivities}
+        isGoodWeather={isGoodWeather}
+        emoji={weather.condition}
+        temp={weather.temperature}
       />
       <Form onAddActivity={handleAddActivity} />
     </div>
