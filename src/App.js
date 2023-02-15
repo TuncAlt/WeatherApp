@@ -29,7 +29,11 @@ function App() {
     console.log(activities);
   }
 
-  console.log(isGoodWeather);
+  function handleDeleteActivity(id) {
+    const deletedActivities = activities.filter((activity) => activity !== id);
+    setActivities(deletedActivities);
+  }
+
   return (
     <div className="App">
       <List
@@ -37,6 +41,7 @@ function App() {
         isGoodWeather={isGoodWeather}
         emoji={weather.condition}
         temp={weather.temperature}
+        onDeleteActivity={handleDeleteActivity}
       />
       <Form onAddActivity={handleAddActivity} />
     </div>

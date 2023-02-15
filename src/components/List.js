@@ -1,10 +1,17 @@
 //import useLocalStorageState from "use-local-storage-state"
 
-export function List({ activities, isGoodWeather, emoji, temp }) {
+export function List({
+  activities,
+  isGoodWeather,
+  emoji,
+  temp,
+  onDeleteActivity,
+}) {
   const listItems = activities.map((activity) => {
     return (
       <li key={activity.id} goodweather={activity.goodweather}>
-        {activity.name}
+        {activity.name}{" "}
+        <button onClick={() => onDeleteActivity(activity)}>X</button>
       </li>
     );
   });
